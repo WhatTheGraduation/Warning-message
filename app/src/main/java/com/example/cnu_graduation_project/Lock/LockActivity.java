@@ -21,10 +21,14 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
 
 import com.example.cnu_graduation_project.ClientActivity;
+import com.example.cnu_graduation_project.DrivingRecognitionActivity;
 import com.example.cnu_graduation_project.R;
 import com.example.cnu_graduation_project.Service.BackgroundService;
+
+import java.util.concurrent.locks.Lock;
 
 /**
  * 잠금화면 페이지
@@ -51,20 +55,6 @@ public class LockActivity extends ClientActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
-        setContentView(R.layout.lock);
-
-        closeBtn = findViewById(R.id.close);
-
-        assert closeBtn != null;
-
-        closeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "button is pressed", Toast.LENGTH_SHORT).show();
-                startService(new Intent(getApplicationContext(), BackgroundService.class));
-                finish();
-            }
-        });
 
         Log.d(TAG,"Start "+ TAG);
         /**
@@ -90,6 +80,24 @@ public class LockActivity extends ClientActivity {
             KeyguardManager km = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
             km.requestDismissKeyguard(this,null);
 
+
+            closeBtn = findViewById(R.id.close);
+
+            closeBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Intent serviceIntent = new Intent(LockActivity.this, BackgroundService.class);
+                    serviceIntent.setAction("startForeground");
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        Toast.makeText(getApplicationContext(), "Trying to init foreground service...", Toast.LENGTH_SHORT).show();
+                        ContextCompat.startForegroundService(LockActivity.this, serviceIntent);
+                    } else {
+                        startService(serviceIntent);
+                    }
+                }
+            });
         }
 
     }
@@ -138,7 +146,6 @@ public class LockActivity extends ClientActivity {
                 } else {
                     // Permission Granted-System will work
                 }
-
             }
         }
     }
