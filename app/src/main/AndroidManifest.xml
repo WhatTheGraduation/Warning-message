@@ -36,6 +36,10 @@
         <receiver android:name=".Lock.LockReceiver" />
 
         <service android:name=".Lock.LockService" />
+
+        <service android:name=".Service.ForegroundService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

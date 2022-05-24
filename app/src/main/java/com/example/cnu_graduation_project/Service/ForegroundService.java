@@ -43,10 +43,7 @@ public class BackgroundService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
 
-        Toast.makeText(getApplicationContext(), "Reached to onStartCommand...", Toast.LENGTH_SHORT).show();
-
         if("startForeground".equals(intent.getAction())) {
-            Toast.makeText(getApplicationContext(), "Starting foreground service...", Toast.LENGTH_SHORT).show();
             startForegroundService();
 
         }
@@ -57,30 +54,8 @@ public class BackgroundService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-//        Toast.makeText(getApplicationContext(), "Starting foreground service...", Toast.LENGTH_SHORT).show();
-//        startForegroundService();
-//        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-//        String channelId = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel(notificationManager) : "";
-//        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, channelId);
-//        Notification notification = notificationBuilder.setOngoing(true)
-//                .setSmallIcon(R.mipmap.ic_launcher)
-//                .setCategory(NotificationCompat.CATEGORY_SERVICE)
-//                .build();
-//
-//        startForeground(ID_SERVICE, notification);
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private String createNotificationChannel(NotificationManager notificationManager) {
-        String channelId = "my_service_channelid";
-        String channelName = "My Foreground Service";
-        NotificationChannel channel = new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH);
-        // omitted the LED color
-        channel.setImportance(NotificationManager.IMPORTANCE_NONE);
-        channel.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
-        notificationManager.createNotificationChannel(channel);
-        return channelId;
-    }
 
     private boolean startForegroundService() {
 
@@ -97,8 +72,8 @@ public class BackgroundService extends Service {
                     = new NotificationCompat.Builder(this, NOTIFI_CHANNEL_ID)
                     .setOngoing(true)
                     .setSmallIcon(R.drawable.ic_launcher_foreground)
-                    .setContentTitle(getString(R.string.app_name))
-                    .setContentText("Service running background")
+                    .setContentTitle("운전 중입니다")
+                    .setContentText("운전 중입니다. 사용을 자제하세요!")
                     .setContentIntent(pendingIntent)
                     .build();
 
