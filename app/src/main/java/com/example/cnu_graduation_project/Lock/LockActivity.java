@@ -2,33 +2,24 @@ package com.example.cnu_graduation_project.Lock;
 
 import static com.example.cnu_graduation_project.TaskTag.ACTIVITY_TAG;
 
-import android.app.Activity;
 import android.app.KeyguardManager;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 
 import com.example.cnu_graduation_project.ClientActivity;
-import com.example.cnu_graduation_project.DrivingRecognitionActivity;
 import com.example.cnu_graduation_project.R;
-import com.example.cnu_graduation_project.Service.BackgroundService;
-
-import java.util.concurrent.locks.Lock;
+import com.example.cnu_graduation_project.Service.ForegroundService;
 
 /**
  * 잠금화면 페이지
@@ -87,12 +78,12 @@ public class LockActivity extends ClientActivity {
                 @Override
                 public void onClick(View view) {
 
-                    Intent serviceIntent = new Intent(LockActivity.this, BackgroundService.class);
+                    Intent serviceIntent = new Intent(LockActivity.this, ForegroundService.class);
                     serviceIntent.setAction("startForeground");
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        Toast.makeText(getApplicationContext(), "Trying to init foreground service...", Toast.LENGTH_SHORT).show();
                         ContextCompat.startForegroundService(LockActivity.this, serviceIntent);
+                        finish();
                     } else {
                         startService(serviceIntent);
                     }
@@ -106,7 +97,6 @@ public class LockActivity extends ClientActivity {
     protected void onPause() {
         super.onPause();
     }
-
 
 
     @Override

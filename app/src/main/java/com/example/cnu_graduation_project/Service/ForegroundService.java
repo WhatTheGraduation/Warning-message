@@ -26,11 +26,10 @@ import com.example.cnu_graduation_project.R;
  * 어플리케이션의 지속적인 동작을 위한 서비스
  * 상단바 알림을 이용하여 서비스 유지
  */
-public class BackgroundService extends Service {
+public class ForegroundService extends Service {
 
     private static final int NOTIFI_ID = 2098;
     private static final String NOTIFI_CHANNEL_ID = "default";
-    private static final int ID_SERVICE = 101;
 
     @Nullable
     @Override
@@ -75,6 +74,7 @@ public class BackgroundService extends Service {
                     .setContentTitle("운전 중입니다")
                     .setContentText("운전 중입니다. 사용을 자제하세요!")
                     .setContentIntent(pendingIntent)
+                    .setPriority(Notification.PRIORITY_MAX)
                     .build();
 
             startForeground(NOTIFI_ID, notification);
