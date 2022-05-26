@@ -12,6 +12,7 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -19,6 +20,7 @@ import androidx.core.content.ContextCompat;
 
 import com.example.cnu_graduation_project.ClientActivity;
 import com.example.cnu_graduation_project.R;
+import com.example.cnu_graduation_project.Resource.WarnMessage;
 import com.example.cnu_graduation_project.Service.ForegroundService;
 
 /**
@@ -38,6 +40,7 @@ import com.example.cnu_graduation_project.Service.ForegroundService;
 public class LockActivity extends ClientActivity {
     static String TAG ="LockActivity";
     private Button closeBtn;
+    private TextView messageTextView;
 
     public static int ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE= 2323;
 
@@ -89,6 +92,8 @@ public class LockActivity extends ClientActivity {
                     }
                 }
             });
+            messageTextView = findViewById(R.id.warn_message);
+            messageTextView.setText(WarnMessage.getMessage());
         }
 
     }
@@ -102,6 +107,8 @@ public class LockActivity extends ClientActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
+        messageTextView.setText(WarnMessage.getMessage());
     }
 
 
